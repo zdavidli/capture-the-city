@@ -4,3 +4,9 @@ for (var node in intersection) {
     
   }
 }
+
+function isClickable(node) {
+  if(node.fillColor != #000000) {
+    return false;
+  }
+}
