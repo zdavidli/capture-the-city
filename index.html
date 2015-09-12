@@ -2,6 +2,37 @@
 <html>
 <head>
 	
+
+	
+<script src="http://maps.googleapis.com/maps/api/js"></script>
+<script>
+function initialize() {
+  var mapProp = {
+    center:new google.maps.LatLng(39.3260840,-76.6094115),
+    zoom:5,
+    mapTypeId:google.maps.MapTypeId.ROADMAP
+  };
+  var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+  
+  var node1 = new google.maps.Circle({
+  center:new google.maps.LatLng(39.3260840,-76.6094115),
+  radius:10,
+  strokeColor:"#000000",
+  strokeOpacity:0.9,
+  strokeWeight:2,
+  fillColor:"#000000",
+  fillOpacity:0.4
+  });
+  
+  map.data.loadGeoJson('baltimore.json');
+  
+  node1.setMap(map);
+}
+
+
+google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://shimz.me/example/d3js/geo_example/geo_template/topojson.v0.min.js"></script>
 <script type="text/javascript">
@@ -74,41 +105,14 @@ function main(pointjson) {
 		
 };
 </script>	
-	
-<script src="http://maps.googleapis.com/maps/api/js"></script>
-<script>
-function initialize() {
-  var mapProp = {
-    center:new google.maps.LatLng(39.3260840,-76.6094115),
-    zoom:5,
-    mapTypeId:google.maps.MapTypeId.ROADMAP
-  };
-  var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
-  
-  var node1 = new google.maps.Circle({
-  center:new google.maps.LatLng(39.3260840,-76.6094115),
-  radius:10,
-  strokeColor:"#000000",
-  strokeOpacity:0.9,
-  strokeWeight:2,
-  fillColor:"#000000",
-  fillOpacity:0.4
-  });
-  
-  map.data.loadGeoJson('baltimore.json');
-  
-  node1.setMap(map);
-}
 
 
-google.maps.event.addDomListener(window, 'load', initialize);
-</script>
 <script src="javascripts/game.js"></script>
 
 </head>
 
 <body>
-div>
+<div>
 <table id="player_stats" style="position:static; width:150px; height:150px;">  
 <tr id = "players">  
 	<td> Player 1 </td>
