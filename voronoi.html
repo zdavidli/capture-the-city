@@ -73,11 +73,11 @@ function main(pointjson) {
 			var positions = [];
 
 			pointdata.forEach(function(d) {		
-				positions.push(googleMapProjection(d.geometry.coordinates)); //位置情報→ピクセル
+				positions.push(googleMapProjection(d.geometry.coordinates));
 			});
 	
 			var polygons = d3.geom.voronoi()
-			    .clipExtent([[10, 10], [900, 900]])(positions);
+			    .clipExtent([[10, 10], [1000, 1000]])(positions);
 			//console.log(polygons[0].join("L"));
 			var pathAttr ={
 				"d":function(d, i) { 
