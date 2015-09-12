@@ -37,6 +37,9 @@ request.onreadystatechange = function() {
     for (i = 0; i < 500; i++) {
       console.log(my_JSON_object.features[i].id);
     }
+    for (i = 0; i < 503; i++) {
+      console.log(my_JSON_object.features[i].geometry.coordinates);
+    }
   }
 }
  
@@ -44,9 +47,7 @@ request.onreadystatechange = function() {
   map.data.loadGeoJson('https://storage.googleapis.com/maps-devrel/google.json');
   node1.setMap(map);
   
-  for (i = 0; i < 503; i++) {
-      console.log(my_JSON_object.features[i].geometry.coordinates);
-    }
+  
 
 }
 
