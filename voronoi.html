@@ -48,7 +48,7 @@ function main(pointjson) {
 		mapTypeId: google.maps.MapTypeId.ROADMAP,
 		center: new google.maps.LatLng(36.322356, 139.013057),       
 	});
-
+	map.setOptions({draggable: true, zoomControl: true, scrollwheel: true, disableDoubleClickZoom: false});
 		
 	var overlay = new google.maps.OverlayView();
 	
