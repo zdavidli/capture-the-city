@@ -34,7 +34,7 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
   display: block;
 }
-
+/**/
 html {
   background: congruent_pentagon/congruent_pentagon.png;
 }
