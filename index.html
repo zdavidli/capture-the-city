@@ -37,7 +37,7 @@ request.onreadystatechange = function() {
     
     for (i = 0; i < 503; i++){
   	new google.maps.Circle({
-  	center:new google.maps.LatLng(my_JSON_object.features[i].geometry.coordinates),
+  	center:new google.maps.LatLng(my_JSON_object.features[i].geometry.coordinates.get(0),my_JSON_object.features[i].geometry.coordinates.get(1)),
   	radius:10,
   	strokeColor:"#000000",
   	strokeOpacity:0.9,
