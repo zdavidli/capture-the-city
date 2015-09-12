@@ -10,7 +10,6 @@ html, body{
     margin: 0px;
     padding: 10px;
 }
-var padding = 10;
 
 html, body, #map_canvas {
 	width: 100%;
@@ -78,7 +77,7 @@ function main(pointjson) {
 			});
 	
 			var polygons = d3.geom.voronoi(positions)
-			    .clipExtent([[padding, padding], [width - padding, height - padding]]);
+			    .clipExtent([[10, 10], [width - 10, height - 10]]);
 			//console.log(polygons[0].join("L"));
 			var pathAttr ={
 				"d":function(d, i) { 
