@@ -10,7 +10,7 @@ var point1;
 function initialize() {
 	var my_JSON_object1 = JSON.parse(request.responseText);
   var mapProp = {
-    center:new google.maps.LatLng(my_JSON_object1.features[0].geometry.coordinates),
+    center:new google.maps.LatLng(my_JSON_object1.features[0].geometry.coordinates[0],my_JSON_object1.features[0].geometry.coordinates[1]),
     zoom:5,
     mapTypeId:google.maps.MapTypeId.ROADMAP
   };
@@ -18,16 +18,16 @@ function initialize() {
   
   
   for (i = 0; i < 503; i++){
-  	var node1 = new google.maps.Circle({
-  	center:new google.maps.LatLng(my_JSON_object1.features[i].geometry.coordinates),
+  	new google.maps.Circle({
+  	center:new google.maps.LatLng(my_JSON_object1.features[i].geometry.coordinates[0],my_JSON_object1.features[i].geometry.coordinates[1]),
   	radius:10,
   	strokeColor:"#000000",
   	strokeOpacity:0.9,
   	strokeWeight:2,
   	fillColor:"#000000",
   	fillOpacity:0.4
-  	});
-  	node1.setMap(map);
+  	}).setMap(map);
+  	
   }
   
   var request = new XMLHttpRequest();
