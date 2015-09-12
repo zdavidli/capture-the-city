@@ -24,34 +24,15 @@ function initialize() {
   fillColor:"#000000",
   fillOpacity:0.4
   });
-  /*
-  function loadJSON(callback) {   
-
-    var xobj = new XMLHttpRequest();
-        xobj.overrideMimeType("application/json");
-    xobj.open('GET', 'baltimore.json', true); // Replace 'my_data' with the path to your file
-    xobj.onreadystatechange = function () {
-          if (xobj.readyState == 4 && xobj.status == "200") {
-            // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
-            callback(xobj.responseText);
-          }
-    };
-    xobj.send(null);  
- }
- 
- loadJSON(function(response) {
-  // Parse JSON string into object
-    var actual_JSON = JSON.parse(response);
- });
-  */
+	
   var request = new XMLHttpRequest();
-   request.open("GET", "baltimore.json", false);
+   request.open("GET", "baltimore.json", true);
    request.send(null)
    var my_JSON_object = JSON.parse(request.responseText);
    alert (my_JSON_object.result[0]);
    
   document.write(my_JSON_object);
-  map.data.loadGeoJson('baltimore.json');
+  //map.data.loadGeoJson('baltimore.json');
   map.data.loadGeoJson('https://storage.googleapis.com/maps-devrel/google.json');
   node1.setMap(map);
 }
