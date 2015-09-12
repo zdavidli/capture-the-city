@@ -26,13 +26,15 @@ function initialize() {
   });
 	
   var request = new XMLHttpRequest();
-   request.open("GET", "baltimore.json", true);
-   request.send(null)
-   var my_JSON_object = JSON.parse(request.responseText);
-   alert (my_JSON_object.result[0]);
-   
-  document.write(my_JSON_object);
-  //map.data.loadGeoJson('baltimore.json');
+request.open("GET", "baltimore.json", false);
+request.send(null);
+request.onreadystatechange = function() {
+  if ( request.readyState === 4 && request.status === 200 ) {
+    var my_JSON_object = JSON.parse(request.responseText);
+    console.log(my_JSON_object);
+  }
+}
+  
   map.data.loadGeoJson('https://storage.googleapis.com/maps-devrel/google.json');
   node1.setMap(map);
 }
