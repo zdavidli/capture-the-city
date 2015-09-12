@@ -9,7 +9,7 @@
 var point1;
 function initialize() {
   var mapProp = {
-    center:new google.maps.LatLng(39.3260840,-76.6094115),
+    center:new google.maps.LatLng(my_JSON_object.features[i].geometry.coordinates),
     zoom:5,
     mapTypeId:google.maps.MapTypeId.ROADMAP
   };
@@ -41,7 +41,7 @@ request.onreadystatechange = function() {
       console.log(my_JSON_object.features[i].geometry.coordinates);
     }
     for (i = 0; i < 503; i++) {
-      	var node1 = new google.maps.Circle({
+      	var node2 = new google.maps.Circle({
   	center:new google.maps.LatLng(my_JSON_object.features[i].geometry.coordinates),
   	radius:10,
   	strokeColor:"#000000",
