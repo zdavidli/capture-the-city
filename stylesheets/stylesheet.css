@@ -35,6 +35,10 @@ footer, header, hgroup, menu, nav, section {
   display: block;
 }
 
+html {
+  background: crossword/crossword.png;
+}
+
 ol, ul {
   list-style: none;
 }
