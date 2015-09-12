@@ -8,27 +8,16 @@
 <script>
 var point1;
 function initialize() {
-	var my_JSON_object1 = JSON.parse(request.responseText);
+
   var mapProp = {
-    center:new google.maps.LatLng(my_JSON_object1.features[0].geometry.coordinates[0],my_JSON_object1.features[0].geometry.coordinates[1]),
+    center:new google.maps.LatLng(39.3247148,-76.6239422),
     zoom:5,
     mapTypeId:google.maps.MapTypeId.ROADMAP
   };
   var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
   
   
-  for (i = 0; i < 503; i++){
-  	new google.maps.Circle({
-  	center:new google.maps.LatLng(my_JSON_object1.features[i].geometry.coordinates[0],my_JSON_object1.features[i].geometry.coordinates[1]),
-  	radius:10,
-  	strokeColor:"#000000",
-  	strokeOpacity:0.9,
-  	strokeWeight:2,
-  	fillColor:"#000000",
-  	fillOpacity:0.4
-  	}).setMap(map);
-  	
-  }
+  
   
   var request = new XMLHttpRequest();
 request.open("GET", "baltimore.json", true);
@@ -45,18 +34,18 @@ request.onreadystatechange = function() {
     for (i = 0; i < 503; i++) {
       console.log(my_JSON_object.features[i].geometry.coordinates);
     }
-    for (i = 0; i < 503; i++) {
-      	var node2 = new google.maps.Circle({
-  	center:new google.maps.LatLng(my_JSON_object.features[i].geometry.coordinates),
+    for (i = 0; i < 503; i++){
+  	new google.maps.Circle({
+  	center:new google.maps.LatLng(my_JSON_object.features[i].geometry.coordinates[0],my_JSON_object.features[i].geometry.coordinates[1]),
   	radius:10,
   	strokeColor:"#000000",
   	strokeOpacity:0.9,
   	strokeWeight:2,
   	fillColor:"#000000",
   	fillOpacity:0.4
-  	});
-      node2.setMap(map);
-    }
+  	}).setMap(map);
+  	
+  }
   }
 }
  
