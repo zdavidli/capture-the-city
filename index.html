@@ -25,8 +25,8 @@ function initialize() {
   fillOpacity:0.4
   });
   
-  var point1 = map.data.loadGeoJson('baltimore.json');
-  
+  map.data.loadGeoJson('baltimore.json');
+  map.data.loadGeoJson('https://storage.googleapis.com/maps-devrel/google.json');
   node1.setMap(map);
 }
 
