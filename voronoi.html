@@ -79,7 +79,7 @@ function main(pointjson) {
 			var polygons = d3.geom.voronoi(positions);
 			//console.log(polygons[0].join("L"));
 			var polyarea;
-			for(index = 0; index < polygon.length; index++){
+			for(index = 0; index < polygons.length; index++){
 				polyarea += d3.geom.polygon.area(polygons[index])
 			}
 			console.log(polyarea)
