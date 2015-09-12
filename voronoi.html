@@ -86,7 +86,11 @@ function main(pointjson) {
 				}
 				},
 				stroke:"red",
-				fill:"none"			
+				if(Math.random() > 0.5){
+					fill:"white"
+				} else {
+					fill:"red"
+				}
 			};
 
 			svgoverlay.selectAll("path")
