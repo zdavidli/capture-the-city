@@ -34,6 +34,34 @@ function initialize() {
 google.maps.event.addDomListener(window, 'load', initialize);
 </script>
 
+<div class='buttons' style="z-index: 100; position: absolute;">
+    <input type="button" onclick='AddToSelection(1)' value="Change color Marker 1" /><!--call a function that changes Marker 1-->
+    <input type="button" onclick='AddToSelection(2)' value="Change color Marker 2" /> <!--call a function that changes Marker 2-->
+</div>
+
+<div id='map'></div>
+
+<script>
+  var map = L.mapbox.map('map', 'njit.map-cval12af');
+
+  var geoJson = [
+   {type:'Feature',geometry:{type:'Point',coordinates:[174.7665232,-36.853447]},properties:{title:"Marker 1",'marker-color':'#4c96ce','marker-size':'small'}},
+   {type:'Feature',geometry:{type:'Point',coordinates:[174.7774598,-41.29007064]},properties:{title:"Marker 2",'marker-color':'#4c96ce','marker-size':'small'}}
+  ];
+
+  map.markerLayer.setGeoJSON(geoJson);
+
+  function AddToSelection(mydata) {
+      map.markerLayer.eachLayer(function(marker) {
+          var feature = marker.feature;
+          if(feature.properties['title'] == 'Marker '+mydata) {
+              feature.properties['marker-color'] = '#000000';
+              map.markerLayer.setGeoJSON(geoJson);
+          }
+      }
+  }      
+</script>
+
 <script src="javascripts/game.js"></script>
 
 </head>
