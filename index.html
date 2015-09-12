@@ -25,8 +25,8 @@ function initialize() {
   fillOpacity:0.4
   });
   
-  var point1 = map.data.addGeoJson('baltimore.json');
-  document.write(point1.contains("Feature"));
+  var point1 = map.data.loadGeoJson('baltimore.json');
+  
   node1.setMap(map);
 }
 
