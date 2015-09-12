@@ -24,8 +24,7 @@ function initialize() {
   fillColor:"#000000",
   fillOpacity:0.4
   });
-
-		
+  
   var request = new XMLHttpRequest();
 request.open("GET", "baltimore.json", true);
 request.send(null);
@@ -33,13 +32,18 @@ request.onreadystatechange = function() {
   if ( request.readyState === 4 && request.status === 200 ) {
     var my_JSON_object = JSON.parse(request.responseText);
     
-    console.log(my_JSON_object.length);
+    console.log(my_JSON_object.features.length);
+    //console.log(my_JSON_object.features[0].id);
+    for (i = 0; i < 500; i++) {
+      console.log(my_JSON_object.features[i].id);
+    }
   }
 }
  
   map.data.loadGeoJson('baltimore.json');
-  map.data.loadGeoJson('https://storage.googleapis.com/maps-devrel/google.json');
+  //map.data.loadGeoJson('https://storage.googleapis.com/maps-devrel/google.json');
   node1.setMap(map);
+
 }
 
 
