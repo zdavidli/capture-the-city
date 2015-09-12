@@ -24,7 +24,8 @@ function initialize() {
   fillColor:"#000000",
   fillOpacity:0.4
   });
-	
+
+		
   var request = new XMLHttpRequest();
 request.open("GET", "baltimore.json", true);
 request.send(null);
@@ -34,7 +35,7 @@ request.onreadystatechange = function() {
     console.log(my_JSON_object);
   }
 }
-  
+  map.data.loadGeoJson('baltimore.json');
   map.data.loadGeoJson('https://storage.googleapis.com/maps-devrel/google.json');
   node1.setMap(map);
 }
