@@ -4,9 +4,13 @@ for (var node in intersection) {
     
   }
 }
-
-function isClickable(node) {
-  if(node.fillColor != #000000) {
-    return false;
-  }
+function Node(){
+  
 }
+
+Node.prototype.isClickable = function (node) {
+    if(node.fillColor != #000000) {
+      return false;
+    }
+    return true;
+  }
