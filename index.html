@@ -44,6 +44,13 @@ function initialize() {
     var actual_JSON = JSON.parse(response);
  });
   */
+  var request = new XMLHttpRequest();
+   request.open("GET", "baltimore.json", false);
+   request.send(null)
+   var my_JSON_object = JSON.parse(request.responseText);
+   alert (my_JSON_object.result[0]);
+   
+  document.write(my_JSON_object);
   map.data.loadGeoJson('baltimore.json');
   map.data.loadGeoJson('https://storage.googleapis.com/maps-devrel/google.json');
   node1.setMap(map);
