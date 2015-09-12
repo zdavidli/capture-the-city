@@ -36,7 +36,7 @@ footer, header, hgroup, menu, nav, section {
 }
 /**/
 html {
-  background: congruent_pentagon/congruent_pentagon.png;
+  background: url("congruent_pentagon/congruent_pentagon.png");
 }
 
 ol, ul {
@@ -55,7 +55,7 @@ Theme Styles
 body {
   box-sizing: border-box;
   color:#373737;
-  background: #212121;
+  background: url("congruent_pentagon/congruent_pengtagon");
   font-size: 16px;
   font-family: 'Myriad Pro', Calibri, Helvetica, Arial, sans-serif;
   line-height: 1.5;
