@@ -11,7 +11,7 @@
         "@id": "node/49442149"
       },
       "geometry": {
-        "type": "Point",
+        "type": "Circle",
         "coordinates": [
           -76.6094115,
           39.326084
@@ -25,7 +25,7 @@
         "@id": "node/49458530"
       },
       "geometry": {
-        "type": "Point",
+        "type": "Circle",
         "coordinates": [
           -76.6094907,
           39.3344368
