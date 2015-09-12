@@ -76,9 +76,15 @@ function main(pointjson) {
 			});
 	
 			var polygons = d3.geom.voronoi(positions);
-			
+			console.log(polygons[0].join("L"));
 			var pathAttr ={
-				"d":function(d, i) { return "M" + polygons[i].join("L") + "Z"},
+				"d":function(d, i) { 
+					if (typeof polygons[i] === "undefined") {
+
+					} else {
+						return "M" + polygons[i].join("L") + "Z";
+				}
+				},
 				stroke:"red",
 				fill:"none"			
 			};
