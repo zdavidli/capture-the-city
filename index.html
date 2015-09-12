@@ -6,6 +6,7 @@
 	
 <script src="http://maps.googleapis.com/maps/api/js"></script>
 <script>
+var point1;
 function initialize() {
   var mapProp = {
     center:new google.maps.LatLng(39.3260840,-76.6094115),
@@ -24,7 +25,7 @@ function initialize() {
   fillOpacity:0.4
   });
   
-  var point1 = map.data.loadGeoJson('baltimore.json');
+  var point1 = map.data.addGeoJson('baltimore.json');
   document.write(point1.contains("Feature"));
   node1.setMap(map);
 }
