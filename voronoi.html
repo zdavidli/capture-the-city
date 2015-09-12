@@ -43,12 +43,12 @@ d3.json('baltimore.json', function(pointjson){
 
 function main(pointjson) {
         
-	  var mapProp = {
+	var mapProp = {
     		center:new google.maps.LatLng(39.3260840,-76.6094115),
 	 	zoom:5,
 	 	mapTypeId:google.maps.MapTypeId.ROADMAP
   		};
-
+	var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
 		
 	var overlay = new google.maps.OverlayView(); 
 	
