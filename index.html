@@ -34,9 +34,10 @@ request.onreadystatechange = function() {
     for (i = 0; i < 503; i++) {
       console.log(my_JSON_object.features[i].geometry.coordinates);
     }
+    
     for (i = 0; i < 503; i++){
   	new google.maps.Circle({
-  	center:new google.maps.LatLng(my_JSON_object.features[i].geometry.coordinates[0],my_JSON_object.features[i].geometry.coordinates[1]),
+  	center:new google.maps.LatLng(my_JSON_object.features[i].geometry.coordinates),
   	radius:10,
   	strokeColor:"#000000",
   	strokeOpacity:0.9,
