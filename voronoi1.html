@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>D3.js GoogleMap Voronoi Diagram</title>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://maps.googleapis.com/maps/api/js"></script>
+<style type="text/css">
+html, body{
+    margin: 0px;
+    padding: 0px;
+}
+html, body, #map_canvas {
+	width: 75%;
+	height: 75%;
+}
+
+.SvgOverlay {
+	position: relative;
+	width: 900px;
+	height: 600px;           
+}
+
+.SvgOverlay svg {
+	position: absolute;
+	top: -4000px;
+	left: -4000px;
+	width: 8000px;
+	height: 8000px;        
+}
+
+</style>
+</head>
+<body>
+<div id="map_canvas"></div>
+<br>
+
+
+
+<script type="text/javascript">
+
+d3.json('baltimore.geojson', function(pointjson){
+	main(pointjson); 
+});
+
+function main(pointjson) {
+        var map = new google.maps.Map(document.getElementById('map_canvas'), {
+		zoom: 12,
+		mapTypeId: google.maps.MapTypeId.ROADMAP,
+		center: new google.maps.LatLng(39.3260840,-76.6094115),       
+	});
+	
+};
+
+</script>
+
+</body>
+</html>
