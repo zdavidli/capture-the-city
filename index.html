@@ -8,22 +8,27 @@
 <script>
 var point1;
 function initialize() {
+	var my_JSON_object1 = JSON.parse(request.responseText);
   var mapProp = {
-    center:new google.maps.LatLng(39.3260840,-76.6094115),
+    center:new google.maps.LatLng(my_JSON_object1.features[i].geometry.coordinates),
     zoom:5,
     mapTypeId:google.maps.MapTypeId.ROADMAP
   };
   var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
   
-  var node1 = new google.maps.Circle({
-  center:new google.maps.LatLng(39.3260840,-76.6094115),
-  radius:10,
-  strokeColor:"#000000",
-  strokeOpacity:0.9,
-  strokeWeight:2,
-  fillColor:"#000000",
-  fillOpacity:0.4
-  });
+  
+  for (i = 0; i < 503; i++){
+  	var node1 = new google.maps.Circle({
+  	center:new google.maps.LatLng(my_JSON_object.features[i].geometry.coordinates),
+  	radius:10,
+  	strokeColor:"#000000",
+  	strokeOpacity:0.9,
+  	strokeWeight:2,
+  	fillColor:"#000000",
+  	fillOpacity:0.4
+  	});
+  	node1.setMap(map);
+  }
   
   var request = new XMLHttpRequest();
 request.open("GET", "baltimore.json", true);
@@ -57,7 +62,7 @@ request.onreadystatechange = function() {
  
   map.data.loadGeoJson('baltimore.json');
   map.data.loadGeoJson('https://storage.googleapis.com/maps-devrel/google.json');
-  node1.setMap(map);
+  
   
   
 
