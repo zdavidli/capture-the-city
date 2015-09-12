@@ -1,9 +1,3 @@
-
-for (var node in intersection) {
-  if(node.fillColor != #000000) {
-    
-  }
-}
 function Node(){
   this.fillColor = #000000;
   this.surround = 0;
@@ -20,4 +14,8 @@ Node.prototype.getOwner = function() {
   return this.color;
 }
 
-Node.prototype
+Node.prototype.surrounds = function() {
+  if (this.surrounds >= 4) {
+    this.fillColor = #000000;
+  }
+}
