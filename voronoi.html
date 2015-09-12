@@ -76,8 +76,8 @@ function main(pointjson) {
 				positions.push(googleMapProjection(d.geometry.coordinates)); //位置情報→ピクセル
 			});
 	
-			var polygons = d3.geom.voronoi(positions)
-			    .clipExtent([[10, 10], [100 - 10, 100 - 10]]);
+			var voronoi = d3.geom.voronoi()
+			    .clipExtent([[10, 10], [900, 900]])(positions);
 			//console.log(polygons[0].join("L"));
 			var pathAttr ={
 				"d":function(d, i) { 
