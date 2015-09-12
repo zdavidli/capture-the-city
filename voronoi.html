@@ -76,9 +76,13 @@ function main(pointjson) {
 				positions.push(googleMapProjection(d.geometry.coordinates));
 			});
 	
-			var polygons = d3.geom.voronoi()
-			    .clipExtent([[10, 10], [1000, 1000]])(positions);
+			var polygons = d3.geom.voronoi(positions);
 			//console.log(polygons[0].join("L"));
+			var polyarea;
+			for(index = 0; index < polygon.length; index++){
+				polyarea += d3.geom.polygon.area(polygons[index])
+			}
+			console.log(polyarea)
 			var pathAttr ={
 				"d":function(d, i) { 
 					if (typeof polygons[i] === "undefined") {
