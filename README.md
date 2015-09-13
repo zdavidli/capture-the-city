@@ -9,7 +9,7 @@ it's a Voronoi diagram, a visualization that partitions a plane into regions clo
 Since the points we picked for this app are street intersections, we're playing Go on the city streets! 
 As of the demonstration, we've uploaded four maps on which to play -- one in Baltimore centered at JHU, one in New York, one in Hong Kong, and one in Rome.
 
-We used d3.js in order to generate the Voronoi diagrams and used a read-only API for OpenStreetMap called [Overpass](http://wiki.openstreetmap.org/wiki/Overpass_API) in order to find the intersections of streets. 
+We used [d3.js](https://github.com/mbostock/d3/wiki) in order to generate the Voronoi diagrams and used a read-only API for OpenStreetMap called [Overpass](http://wiki.openstreetmap.org/wiki/Overpass_API) in order to find the intersections of streets. 
 Once we found the coordinate of intersections, we plotted them onto Google Maps using the Maps JavaScript API.
 
 You may see the game in action [here.](https://www.youtube.com/watch?v=HpT5ScNET_A)
