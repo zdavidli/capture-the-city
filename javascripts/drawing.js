@@ -14,7 +14,7 @@ function initialize() {
     var width = 1000,
         height = 1000;
     var mapProp = {
-    center:new google.maps.LatLng(39.3247148,-76.6239422),
+    center:new google.maps.LatLng(39.328267, -76.611583),
     zoom:15,
     mapTypeId:google.maps.MapTypeId.ROADMAP
     };
