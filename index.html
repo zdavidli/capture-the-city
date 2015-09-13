@@ -22,7 +22,8 @@ function initialize() {
   // Adds voronoi
   // ****************
   function makeVoronoi(pointjson) {
-
+    var width = 1000,
+        height = 1000;
     var mapProp = {
     center:new google.maps.LatLng(39.3247148,-76.6239422),
     zoom:15,
@@ -55,11 +56,11 @@ function initialize() {
             var positions = [];
 
             pointdata.forEach(function(d) {   
-              positions.push(googleMapProjection(d.geometry.coordinates)); //位置情報→ピクセル
+              positions.push(googleMapProjection(d.geometry.coordinates)); 
             });
         
-            var polygons = d3.geom.voronoi(positions);
-
+            var polygons = d3.geom.voronoi().clipExtent([0,0],[width,height])(positions);
+            
             var pathAttr ={
               "d":function(d, i) { 
                 if (typeof polygons[i] === "undefined") {
@@ -79,6 +80,8 @@ function initialize() {
               .append("svg:path")
               .attr("class", "cell")
               .attr(pathAttr)
+              .style("fill", "grey")
+              .style("fill-opacity", 0.25) //set to 0 to hide
               
             var circleAttr = {
                   "cx":function(d, i) { return positions[i][0]; },
