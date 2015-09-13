@@ -109,7 +109,7 @@ function initialize() {
   if ( request.readyState === 4 && request.status === 200 ) {
     var my_JSON_object = JSON.parse(request.responseText);
     
-    for (i = 0; i < 503; i++){
+    for (i = 0; i < my_JSON_object.features.length; i++){
     intersections.push(new google.maps.Circle({
       center:new google.maps.LatLng(my_JSON_object.features[i].geometry.coordinates[1],my_JSON_object.features[i].geometry.coordinates[0]),
       radius:5,
