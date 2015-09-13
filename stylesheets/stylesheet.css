@@ -61,10 +61,6 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
   display: block;
 }
-/**/
-html {
-  background-image: url("congruent_pentagon/congruent_pentagon.png");
-}
 
 ol, ul {
   list-style: none;
@@ -82,7 +78,6 @@ Theme Styles
 body {
   box-sizing: border-box;
   color:#373737;
-  background-image: url("congruent_pentagon/congruent_pengtagon.png");
   font-size: 16px;
   font-family: 'Myriad Pro', Calibri, Helvetica, Arial, sans-serif;
   line-height: 1.5;
