@@ -1,6 +1,15 @@
-var intersections=[];
-function initialize() {
 
+// Set the players and game
+var player1 = new Player("Player 1");
+var player2 = new Player("Player 2");
+var currentGame = new Game([player1,player2]);
+
+// Array of intersectons and nodes
+var nodes=[];
+var intersections=[];
+
+
+function initialize() {
   // Borrowing code from veronoi
   d3.json('baltimore.geojson', function(pointjson){
     makeVoronoi(pointjson);
@@ -23,9 +32,6 @@ function initialize() {
     var overlay = new google.maps.OverlayView();
 
     overlay.onAdd = function () {
-
-      
-
       var layer = d3.select(this.getPanes().overlayLayer).append("div").attr("class", "SvgOverlay");
       var svg = layer.append("svg");
       var svgoverlay = svg.append("g").attr("class", "AdminDivisions");
@@ -71,37 +77,16 @@ function initialize() {
               .attr(pathAttr)
               .style("fill", "grey")
               .style("fill-opacity", 0.25) //set to 0 to hide
-              
-            var circleAttr = {
-                  "cx":function(d, i) { return positions[i][0]; },
-                  "cy":function(d, i) { return positions[i][1]; },
-                  "r":3,
-                  strokeColor:"#000000",
-                  strokeOpacity:0.9,
-                  strokeWeight:2,
-                  fillColor:"red",
-                  fillOpacity:0.4,
-                  stroke:"black",
-                  fill:"red"      
-            }
-
-
-            /*svgoverlay.selectAll("circle")
-              .data(pointdata)
-              .attr(circleAttr)
-              .enter()
-              .append("svg:circle")
-              .attr(circleAttr)*/
-      
       };
 
   };
 
   overlay.setMap(map);
-
-
 };
-  
+
+ /***************************
+  * Make the intersections
+  ***************************/
   var request = new XMLHttpRequest();
   request.open("GET", "baltimore.json", true);
   request.send(null);
@@ -109,34 +94,105 @@ function initialize() {
   if ( request.readyState === 4 && request.status === 200 ) {
     var my_JSON_object = JSON.parse(request.responseText);
     
-    for (i = 0; i < 503; i++){
-    intersections.push(new google.maps.Circle({
-      center:new google.maps.LatLng(my_JSON_object.features[i].geometry.coordinates[1],my_JSON_object.features[i].geometry.coordinates[0]),
-      radius:5,
-      strokeColor:"#000000",
-      strokeOpacity:0.9,
-      strokeWeight:2,
-      fillColor:"#000000",
-      fillOpacity:0.4
-      }));
-    intersections[i].setMap(map);
-    console.log(intersections.length);
-    console.log(intersections[i]);
-    temp = intersections[i];
+    for (i = 0; i < my_JSON_object.features.length; i++){
+    var currentIntersection = new google.maps.Circle({
+        center:new google.maps.LatLng(my_JSON_object.features[i].geometry.coordinates[1],my_JSON_object.features[i].geometry.coordinates[0]),
+        radius:10,
+        strokeColor:"#000000",
+        strokeOpacity:0.9,
+        strokeWeight:.5,
+        fillColor:"#000000",
+        fillOpacity:0.4
+        });
+    currentIntersection.correspondingNode = currentNode;
+    var currentNode = new Node(currentGame);
+
+
+    intersections.push(currentIntersection);
+    nodes.push(currentNode);
+
+    
+
+    currentIntersection.setMap(map);
     google.maps.event.addListener(intersections[i],'click',function() {
-       this.setOptions( {
-        fillColor: 'white',
-        fillOpacity: 1
-      });
+        if (this.correspondingNode.color == 'black') {
+          if (this.correspondingNode.game.whoseTurn == 1) {
+            console.log("player1 turn");
+            this.setOptions( {
+            fillColor: 'red',
+            fillOpacity: 1
+            });
+            player1.ownedNodes.push[this.correspondingNode];
+            this.correspondingNode.game.whoseTurn = 2;
+            this.correspondingNode.color = 'red';
+          } else {
+            console.log("player2 turn");
+            this.setOptions( {
+            fillColor: 'blue',
+            fillOpacity: 1
+            });
+            player2.ownedNodes.push[this.correspondingNode];
+            this.correspondingNode.game.whoseTurn = 1;
+            this.correspondingNode.color = 'blue';
+          }
+        }
     })
+
   }
 }
-  
-  
-  
-
-
+}
 }
 
+
+
+
+
+function Player(name) {
+  this.name = name;
+  this.ownedNodes = [];
+  this.points = 0;
+  function addNode(Node) {
+    this.ownedNodes.push(Node);
+  }
 }
+
+function Node(game) {
+  this.color = 'black';
+  this.game = game;
+}
+
+function Game(playerList) {
+  this.players = playerList;
+  this.turnCount = 0;
+  // player 1 starts
+  this.whoseTurn = 1;
+  this.players = playerList.length;
+
+  function turn() {
+    if (turnCount % 2 == 0) {
+      document.write("Player one your turn");
+      this.whoseTurn = 1;
+
+    }
+    if (turnCount % 2 == 1) {
+      document.write("Player two your turn");
+      this.whoseTurn = 2;
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
 google.maps.event.addDomListener(window, 'load', initialize);
+
+
+
+
