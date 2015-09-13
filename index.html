@@ -136,7 +136,8 @@ function initialize() {
     temp = intersections[i];
     google.maps.event.addListener(intersections[i],'click',function() {
        this.setOptions( {
-        fillColor: 'white'
+        fillColor: 'white',
+        fillOpacity: 1
       });
     })
   }
