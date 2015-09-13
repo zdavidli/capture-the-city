@@ -1,40 +1,42 @@
 <!DOCTYPE html>
+<meta charset="utf-8">
 <html>
 <head>
-<title>D3.js GoogleMap Voronoi Diagram</title>
+<title>D3.js Google Maps Voronoi Diagram</title>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://shimz.me/example/d3js/topojson.v0.min.js"></script>
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js"></script>
 <style type="text/css">
 html, body{
     margin: 0px;
-    padding: 10px;
+    padding: 0px;
 }
 
 html, body, #map_canvas {
-	width: 100%;
-	height: 100%;
+    width: 100%;
+    height: 100%;
 }
 
 .SvgOverlay {
-	position: relative;
-	width: 900px;
-	height: 600px;           
+    position: relative;
+    width: 900px;
+    height: 600px;
 }
 
 .SvgOverlay svg {
-	position: absolute;
-	top: -4000px;
-	left: -4000px;
-	width: 8000px;
-	height: 8000px;        
+    position: absolute;
+    top: -4000px;
+    left: -4000px;
+    width: 8000px;
+    height: 8000px;
 }
 
 </style>
 </head>
 <body>
-<!-- back to index-->	
+<!-- back to index-->
 <a href=index.html> index </a>
+
 <div id="map_canvas"></div>
 <br>
 
@@ -42,91 +44,92 @@ html, body, #map_canvas {
 
 <script type="text/javascript">
 
+var width = 1000,
+    height = 500;
+
 d3.json('baltimore.geojson', function(pointjson){
-	main(pointjson); 
+    main(pointjson);
 });
 
 function main(pointjson) {
         var map = new google.maps.Map(document.getElementById('map_canvas'), {
-		zoom: 15,
-		mapTypeId: google.maps.MapTypeId.ROADMAP,
-		center: new google.maps.LatLng(39.3260840,-76.6094115),       
-	});
-	var overlay = new google.maps.OverlayView();
-	
-	overlay.onAdd = function () {
+        zoom: 15,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        center: new google.maps.LatLng(39.3260840,-76.6094115),
+    });
+    var overlay = new google.maps.OverlayView();
 
-		var layer = d3.select(this.getPanes().overlayLayer).append("div").attr("class", "SvgOverlay");
-		var svg = layer.append("svg");
-		var svgoverlay = svg.append("g").attr("class", "AdminDivisions");
-		
-		overlay.draw = function () {
-			var markerOverlay = this;
-			var overlayProjection = markerOverlay.getProjection();
-	
-			var googleMapProjection = function (coordinates) {
-				var googleCoordinates = new google.maps.LatLng(coordinates[1], coordinates[0]);
-				var pixelCoordinates = overlayProjection.fromLatLngToDivPixel(googleCoordinates);
-				return [pixelCoordinates.x + 4000, pixelCoordinates.y + 4000];
-			}
+    overlay.onAdd = function () {
 
-			var pointdata = pointjson.features;
-			
-			var positions = [];
+        var layer = d3.select(this.getPanes().overlayLayer).append("div").attr("class", "SvgOverlay");
+        var svg = layer.append("svg");
+        var svgoverlay = svg.append("g").attr("class", "AdminDivisions");
 
-			pointdata.forEach(function(d) {		
-				positions.push(googleMapProjection(d.geometry.coordinates));
-			});
-	
-			var polygons = d3.geom.voronoi(positions);
-			//console.log(polygons[0].join("L"));
-			var polyarea;
-			for(index = 0; index < polygons.length; index++){
-				polyarea += polygon.area(polygons[index])
-			}
-			console.log(polyarea)
-			var pathAttr ={
-				"d":function(d, i) { 
-					if (typeof polygons[i] === "undefined") {
+        overlay.draw = function () {
+            var markerOverlay = this;
+            var overlayProjection = markerOverlay.getProjection();
 
-					} else {
-						return "M" + polygons[i].join("L") + "Z";
-				}
-				},
-				stroke:"red",
-				fill:"none"
-			};
+            var googleMapProjection = function (coordinates) {
+                var googleCoordinates = new google.maps.LatLng(coordinates[1], coordinates[0]);
+                var pixelCoordinates = overlayProjection.fromLatLngToDivPixel(googleCoordinates);
+                return [pixelCoordinates.x + 4000, pixelCoordinates.y + 4000];
+            }
 
-			svgoverlay.selectAll("path")
-				.data(pointdata)
-				.attr(pathAttr)
-				.enter()
-				.append("svg:path")
-				.attr("class", "cell")
-				.attr(pathAttr)
-				
-			var circleAttr = {
-				    "cx":function(d, i) { return positions[i][0]; },
-				    "cy":function(d, i) { return positions[i][1]; },
-				    "r":2,
-				    stroke:"black",
-				    fill:"red"			
-			}
-	
-			svgoverlay.selectAll("circle")
-				.data(pointdata)
-				.attr(circleAttr)
-				.enter()
-				.append("svg:circle")
-				.attr(circleAttr)
-	  
-		};
+            var pointdata = pointjson.features;
 
-	};
+            var positions = [];
 
-	overlay.setMap(map);
-	
-		
+            pointdata.forEach(function(d) {
+                positions.push(googleMapProjection(d.geometry.coordinates));
+            });
+
+            var polygons = d3.geom.voronoi().clipExtent([0,0],[width,height])(positions);
+            //console.log(polyarea)
+            var pathAttr ={
+                "d":function(d, i) {
+                    if (typeof polygons[i] === "undefined") {
+
+                    } else {
+                        return "M" + polygons[i].join("L") + "Z";
+                }
+                },
+                stroke:"red",
+                fill:"none"
+            };
+
+            svgoverlay.selectAll("path")
+                .data(pointdata)
+                .attr(pathAttr)
+                .enter()
+                .append("svg:path")
+                .attr("class", "cell")
+                .attr(pathAttr)
+                .style("fill", "grey")
+                .style("fill-opacity", 0.25) //set to 0 to hide
+
+
+            var circleAttr = {
+                    "cx":function(d, i) { return positions[i][0]; },
+                    "cy":function(d, i) { return positions[i][1]; },
+                    "r":2,
+                    stroke:"black",
+                    fill:"red"
+            }
+
+            svgoverlay.selectAll("circle")
+                .data(pointdata)
+                .attr(circleAttr)
+                .enter()
+                .append("svg:circle")
+                .attr(circleAttr)
+
+        };
+
+    };
+
+    overlay.setMap(map);
+
+
 };
 
 </script>
