@@ -12,7 +12,7 @@ var polyarea = [];
 
 function initialize() {
   // Borrowing code from voronoi
-  d3.json('/json/baltimore.json', function(pointjson){
+  d3.json('json/baltimore.json', function(pointjson){
     makeVoronoi(pointjson);
   });
   var map;
@@ -119,7 +119,7 @@ function initialize() {
   ***************************/
   console.log(polyarea);
   var request = new XMLHttpRequest();
-  request.open("GET", "baltimore.json", true);
+  request.open("GET", "json/baltimore.json", true);
   request.send(null);
   request.onreadystatechange = function() {
   if ( request.readyState === 4 && request.status === 200 ) {
