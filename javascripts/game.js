@@ -5,14 +5,13 @@ function Player(name) {
 }
 
 Player.prototype.addNode = function(Node) {
-	this.ownedIntersections.push(Node);
+	this.ownedNodes.push(Node);
 }
 	
 function PlayerList() {
 	this.list = [];
 }
 
-Play
 
 function Game(playerList, IntersectionList) {
 	this.players = playerList;
