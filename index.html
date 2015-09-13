@@ -1,93 +1,151 @@
 <!DOCTYPE html>
 <html>
 <head>
-	
+
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://shimz.me/example/d3js/topojson.v0.min.js"></script>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js"></script>	
 <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css">
-<script src="http://maps.googleapis.com/maps/api/js"></script>
+
+
 <script>
-var point1;
+var intersections=[];
 function initialize() {
 
-  var mapProp = {
-    center:new google.maps.LatLng(39.329329, -76.613643),
+  // Borrowing code from veronoi
+  d3.json('baltimore.geojson', function(pointjson){
+    makeVoronoi(pointjson);
+  });
+  var map;
+
+  // ****************
+  // Adds voronoi
+  // ****************
+  function makeVoronoi(pointjson) {
+
+    var mapProp = {
+    center:new google.maps.LatLng(39.3247148,-76.6239422),
     zoom:15,
     mapTypeId:google.maps.MapTypeId.ROADMAP
+    };
+    map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+
+    var overlay = new google.maps.OverlayView();
+
+    overlay.onAdd = function () {
+
+      
+
+      var layer = d3.select(this.getPanes().overlayLayer).append("div").attr("class", "SvgOverlay");
+      var svg = layer.append("svg");
+      var svgoverlay = svg.append("g").attr("class", "AdminDivisions");
+      
+      overlay.draw = function () {
+            var markerOverlay = this;
+            var overlayProjection = markerOverlay.getProjection();
+        
+            var googleMapProjection = function (coordinates) {
+              var googleCoordinates = new google.maps.LatLng(coordinates[1], coordinates[0]);
+              var pixelCoordinates = overlayProjection.fromLatLngToDivPixel(googleCoordinates);
+              return [pixelCoordinates.x + 4000, pixelCoordinates.y + 4000];
+            }
+
+            var pointdata = pointjson.features;
+            
+            var positions = [];
+
+            pointdata.forEach(function(d) {   
+              positions.push(googleMapProjection(d.geometry.coordinates)); //位置情報→ピクセル
+            });
+        
+            var polygons = d3.geom.voronoi(positions);
+
+            var pathAttr ={
+              "d":function(d, i) { 
+                if (typeof polygons[i] === "undefined") {
+
+                } else {
+                  return "M" + polygons[i].join("L") + "Z";
+              }
+              },
+              stroke:"red",
+              fill:"none"
+            };
+
+            svgoverlay.selectAll("path")
+              .data(pointdata)
+              .attr(pathAttr)
+              .enter()
+              .append("svg:path")
+              .attr("class", "cell")
+              .attr(pathAttr)
+              
+            var circleAttr = {
+                  "cx":function(d, i) { return positions[i][0]; },
+                  "cy":function(d, i) { return positions[i][1]; },
+                  "r":3,
+                  strokeColor:"#000000",
+                  strokeOpacity:0.9,
+                  strokeWeight:2,
+                  fillColor:"#000000",
+                  fillOpacity:0.4,
+                  stroke:"black",
+                  fill:"red"      
+            }
+
+
+            /*svgoverlay.selectAll("circle")
+              .data(pointdata)
+              .attr(circleAttr)
+              .enter()
+              .append("svg:circle")
+              .attr(circleAttr)*/
+      
+      };
+
   };
-  var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
-  
-  
-  
+
+  overlay.setMap(map);
+
+
+};
   
   var request = new XMLHttpRequest();
-request.open("GET", "baltimore.json", true);
-request.send(null);
-request.onreadystatechange = function() {
+  request.open("GET", "baltimore.json", true);
+  request.send(null);
+  request.onreadystatechange = function() { 
   if ( request.readyState === 4 && request.status === 200 ) {
     var my_JSON_object = JSON.parse(request.responseText);
     
-    console.log(my_JSON_object.features.length);
-    //console.log(my_JSON_object.features[0].id);
-    for (i = 0; i < 500; i++) {
-      console.log(my_JSON_object.features[i].id);
-    }
-    for (i = 0; i < 503; i++) {
-      console.log(my_JSON_object.features[i].geometry.coordinates);
-    }
-    
     for (i = 0; i < 503; i++){
-  	new google.maps.Circle({
-  	center:new google.maps.LatLng(my_JSON_object.features[i].geometry.coordinates[1],my_JSON_object.features[i].geometry.coordinates[0]),
-  	radius:5,
-  	strokeColor:"#000000",
-  	strokeOpacity:0.9,
-  	strokeWeight:2,
-  	fillColor:"#000000",
-  	fillOpacity:0.4
-  	}).setMap(map);
-  	
-  }
+    intersections.push(new google.maps.Circle({
+      center:new google.maps.LatLng(my_JSON_object.features[i].geometry.coordinates[1],my_JSON_object.features[i].geometry.coordinates[0]),
+      radius:5,
+      strokeColor:"#000000",
+      strokeOpacity:0.9,
+      strokeWeight:2,
+      fillColor:"#000000",
+      fillOpacity:0.4
+      }));
+    intersections[i].setMap(map);
+    console.log(intersections.length);
+    console.log(intersections[i]);
+    temp = intersections[i];
+    google.maps.event.addListener(intersections[i],'click',function() {
+       this.setOptions( {
+        fillColor: 'white'
+      });
+    })
   }
 }
- 
-  //map.data.loadGeoJson('baltimore.json');
-  map.data.loadGeoJson('https://storage.googleapis.com/maps-devrel/google.json');
   
-  // Color each letter gray. Change the color when the isColorful property
-  // is set to true.
-  map.data.setStyle(function(feature) {
-    var color = 'gray';
-    if (feature.getProperty('isColorful')) {
-      color = feature.getProperty('color');
-    }
-    return /** @type {google.maps.Data.StyleOptions} */({
-      fillColor: color,
-      strokeColor: color,
-      strokeWeight: 2
-    });
-  });
   
-  // When the user clicks, set 'isColorful', changing the color of the letters.
-  map.data.addListener('click', function(event) {
-    event.feature.setProperty('isColorful', true);
-  });
+  
 
-  // When the user hovers, tempt them to click by outlining the letters.
-  // Call revertStyle() to remove all overrides. This will use the style rules
-  // defined in the function passed to setStyle()
-  map.data.addListener('mouseover', function(event) {
-    map.data.revertStyle();
-    map.data.overrideStyle(event.feature, {strokeWeight: 8});
-  });
-
-  map.data.addListener('mouseout', function(event) {
-    map.data.revertStyle();
-  });
-  
-  
 
 }
 
-
+}
 google.maps.event.addDomListener(window, 'load', initialize);
 </script>
 

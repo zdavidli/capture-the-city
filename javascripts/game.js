@@ -1,20 +1,23 @@
-function Player(name) {
+
+
+player = function (name) {
 	this.name = name;
-	this.ownedNodes = [];
+	this.ownedIntersections = [];
 	this.points = 0;
+	this.addIntersection = function(inter) {
+		this.ownedIntersections.push(inter);
+	}
 }
 
-Player.prototype.addNode = function(Node) {
-	this.ownedIntersections.push(Node);
-}
-	
-function PlayerList() {
-	this.list = [];
+intersection = function(x,y) {
+	this.x = x;
+	this.y = y;
+	this.owner = null;
+	// blue means no owner
+	this.color = "blue";
 }
 
-Play
-
-function Game(playerList, IntersectionList) {
+game = function(playerList, IntersectionList) {
 	this.players = playerList;
 	this.allIntersections = IntersectionList;
 	this.turnCount = 0;
