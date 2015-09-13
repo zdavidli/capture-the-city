@@ -12,7 +12,7 @@ var polyarea = [];
 
 function initialize() {
   // Borrowing code from voronoi
-  d3.json('/json/HK.json', function(pointjson){
+  d3.json('json/HK.json', function(pointjson){
     makeVoronoi(pointjson);
   });
   var map;
@@ -24,7 +24,7 @@ function initialize() {
     var width = 1000,
         height = 1000;
     var mapProp = {
-    center:new google.maps.LatLng(39.328267, -76.611583),
+    center:new google.maps.LatLng(22.3251305, 114.1721359),
     zoom:15,
     mapTypeId:google.maps.MapTypeId.ROADMAP
     };
@@ -119,7 +119,7 @@ function initialize() {
   ***************************/
   console.log(polyarea);
   var request = new XMLHttpRequest();
-  request.open("GET", "baltimore.json", true);
+  request.open("GET", "json/HK.json", true);
   request.send(null);
   request.onreadystatechange = function() {
   if ( request.readyState === 4 && request.status === 200 ) {

@@ -12,7 +12,7 @@ var polyarea = [];
 
 function initialize() {
   // Borrowing code from voronoi
-  d3.json('json/baltimore.json', function(pointjson){
+  d3.json('baltimore.geojson', function(pointjson){
     makeVoronoi(pointjson);
   });
   var map;
@@ -119,7 +119,7 @@ function initialize() {
   ***************************/
   console.log(polyarea);
   var request = new XMLHttpRequest();
-  request.open("GET", "json/baltimore.json", true);
+  request.open("GET", "baltimore.json", true);
   request.send(null);
   request.onreadystatechange = function() {
   if ( request.readyState === 4 && request.status === 200 ) {
@@ -214,5 +214,13 @@ function Game(playerList) {
   // player 1 starts
   this.whoseTurn = 1;
 }
+
+
+
+
+
+
+
+
 
 google.maps.event.addDomListener(window, 'load', initialize);
