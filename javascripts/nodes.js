@@ -19,3 +19,7 @@ Node.prototype.surrounds = function() {
     this.fillColor = #000000;
   }
 }
+
+function NodeList() {
+  this.nodeList = [];
+}
