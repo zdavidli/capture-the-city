@@ -2,7 +2,7 @@ var intersections=[];
 function initialize() {
 
   // Borrowing code from veronoi
-  d3.json('baltimore.geojson', function(pointjson){
+  d3.json('Flatiron.json', function(pointjson){
     makeVoronoi(pointjson);
   });
   var map;
@@ -103,7 +103,7 @@ function initialize() {
 };
   
   var request = new XMLHttpRequest();
-  request.open("GET", "baltimore.json", true);
+  request.open("GET", "Flatiron.json", true);
   request.send(null);
   request.onreadystatechange = function() { 
   if ( request.readyState === 4 && request.status === 200 ) {
