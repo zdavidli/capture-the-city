@@ -11,7 +11,7 @@ var polyarea = [];
 
 
 function initialize() {
-  // Borrowing code from veronoi
+  // Borrowing code from voronoi
   d3.json('baltimore.geojson', function(pointjson){
     makeVoronoi(pointjson);
   });
@@ -36,11 +36,11 @@ function initialize() {
       var layer = d3.select(this.getPanes().overlayLayer).append("div").attr("class", "SvgOverlay");
       var svg = layer.append("svg");
       var svgoverlay = svg.append("g").attr("class", "AdminDivisions");
-      
+
       overlay.draw = function () {
             var markerOverlay = this;
             var overlayProjection = markerOverlay.getProjection();
-        
+
             var googleMapProjection = function (coordinates) {
               var googleCoordinates = new google.maps.LatLng(coordinates[1], coordinates[0]);
               var pixelCoordinates = overlayProjection.fromLatLngToDivPixel(googleCoordinates);
@@ -48,15 +48,15 @@ function initialize() {
             }
 
             var pointdata = pointjson.features;
-            
+
             var positions = [];
 
-            pointdata.forEach(function(d) {   
-              positions.push(googleMapProjection(d.geometry.coordinates)); 
+            pointdata.forEach(function(d) {
+              positions.push(googleMapProjection(d.geometry.coordinates));
             });
-        
+
             var polygons = d3.geom.voronoi().clipExtent([0,0],[width,height])(positions);
-            
+
             var pathAttr ={
               "d":function(d, i) {
                 if (typeof polygons[i] === "undefined") {
@@ -68,12 +68,15 @@ function initialize() {
               stroke:"red",
               fill:"none"
             };
+
             var len = polygons.length
             for(i = 0; i < len; i++ ){
                 polygons[i] && polygons.push(polygons[i]);
             }
+            polygons.splice(0, len); //take out if necessary
+            console.log(polygons);
 
-            
+
             for(i = 0; i < polygons.length; i++){
                     if(typeof polygons[i] === "undefined") {}
                     else{
@@ -81,8 +84,20 @@ function initialize() {
                     }
             }
 
+            console.log(polyarea);
+
             polyarea = polyarea.filter(Number);
-            
+
+            console.log(polyarea);
+            var sum = 0;
+            for(i = 0; i < polyarea.length; i++){
+                if(typeof polyarea[i] === "NaN"){}
+                else{
+                    sum += polyarea[i];
+                }
+            }
+            console.log(sum);
+
             svgoverlay.selectAll("path")
               .data(pointdata)
               .attr(pathAttr)
@@ -93,23 +108,23 @@ function initialize() {
               .style("fill", "grey")
               .style("fill-opacity", 0.25) //set to 0 to hide
       };
-      
+
 
   };
   overlay.setMap(map);
 };
 
- /***************************
+/***************************
   * Make the intersections
   ***************************/
   console.log(polyarea);
   var request = new XMLHttpRequest();
   request.open("GET", "baltimore.json", true);
   request.send(null);
-  request.onreadystatechange = function() { 
+  request.onreadystatechange = function() {
   if ( request.readyState === 4 && request.status === 200 ) {
     var my_JSON_object = JSON.parse(request.responseText);
-    
+
     for (i = 0; i < my_JSON_object.features.length; i++){
     var currentIntersection = new google.maps.Circle({
         center:new google.maps.LatLng(my_JSON_object.features[i].geometry.coordinates[1],my_JSON_object.features[i].geometry.coordinates[0]),
@@ -127,7 +142,7 @@ function initialize() {
     intersections.push(currentIntersection);
     nodes.push(currentNode);
 
-    
+
 
     currentIntersection.setMap(map);
     google.maps.event.addListener(intersections[i],'click',function() {
@@ -178,8 +193,12 @@ function Player(name) {
 Player.prototype.addNode = function(Node) {
     this.points += polyarea[Node.index];
     this.ownedNodes.push(Node);
-    console.log(this.points); 
+    console.log(this.points);
     document.getElementById(this.name).innerHTML = "Score: " + Math.round(this.points);
+}
+Player.prototype.update = function(p) {
+    this.points += p;
+
 }
 
 function Node(game) {
@@ -196,16 +215,4 @@ function Game(playerList) {
   this.whoseTurn = 1;
 }
 
-
-
-
-
-
-
-
-
 google.maps.event.addDomListener(window, 'load', initialize);
-
-
-
-
