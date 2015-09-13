@@ -68,13 +68,10 @@ function initialize() {
               stroke:"red",
               fill:"none"
             };
-            
             var len = polygons.length
             for(i = 0; i < len; i++ ){
                 polygons[i] && polygons.push(polygons[i]);
             }
-            polygons.splice(0, len);
-            //console.log(polygons);
 
             
             for(i = 0; i < polygons.length; i++){
@@ -83,6 +80,8 @@ function initialize() {
                         polyarea.push(d3.geom.polygon(polygons[i]).area());
                     }
             }
+
+            polyarea = polyarea.filter(Number);
             
             svgoverlay.selectAll("path")
               .data(pointdata)
@@ -103,6 +102,7 @@ function initialize() {
  /***************************
   * Make the intersections
   ***************************/
+  console.log(polyarea);
   var request = new XMLHttpRequest();
   request.open("GET", "baltimore.json", true);
   request.send(null);
@@ -122,8 +122,8 @@ function initialize() {
         });
     currentIntersection.correspondingNode = currentNode;
     var currentNode = new Node(currentGame);
-
-
+    currentNode.index = i
+    //console.log(i);
     intersections.push(currentIntersection);
     nodes.push(currentNode);
 
@@ -140,12 +140,12 @@ function initialize() {
             fillOpacity: 1
             });
             player1.ownedNodes.push[this.correspondingNode];
+            console.log(player1.ownedNodes);
             this.correspondingNode.game.whoseTurn = 2;
             this.correspondingNode.color = 'red';
-            //this.correspondingNode.game.playerList[0].points += this.correspondingNode.areaValue;
-
-            //console.log(this.correspondingNode.game.playerList[0].points);
-            this.correspondingNode.game.playerList[0].update(this.correspondingNode.areaValue);
+            this.correspondingNode.game.playerList[0].addNode(this.correspondingNode);
+            console.log(this.correspondingNode.game.playerList[0].ownedNodes);
+            //this.correspondingNode.game.playerList[0].update(this.correspondingNode.areaValue);
           } else {
             console.log("player2 turn");
             this.setOptions( {
@@ -155,7 +155,9 @@ function initialize() {
             player2.ownedNodes.push[this.correspondingNode];
             this.correspondingNode.game.whoseTurn = 1;
             this.correspondingNode.color = 'blue';
-            this.correspondingNode.game.playerList[1].update(this.correspondingNode.areaValue);
+            this.correspondingNode.game.playerList[1].addNode(this.correspondingNode);
+            console.log(this.correspondingNode.game.playerList[1].ownedNodes);
+            //this.correspondingNode.game.playerList[1].update(this.correspondingNode.areaValue);
           }
         }
     })
@@ -163,27 +165,27 @@ function initialize() {
   }
 }
 }
+
 }
-
-
 
 
 function Player(name) {
   this.name = name;
   this.ownedNodes = [];
   this.points = 0;
-  function addNode(Node) {
+}
+
+Player.prototype.addNode = function(Node) {
+    this.points += polyarea[Node.index];
     this.ownedNodes.push(Node);
-  }
-  function update(points) {
-    this.points += points;
-    console.log(this.points);
-  }
+    console.log(this.points); 
+    document.getElementById(this.name).innerHTML = "Score: " + Math.round(this.points);
 }
 
 function Node(game) {
   this.color = 'black';
   this.game = game;
+  this.index = 0;
   this.areaValue = 0;
 }
 
@@ -192,18 +194,6 @@ function Game(playerList) {
   this.turnCount = 0;
   // player 1 starts
   this.whoseTurn = 1;
-
-  function turn() {
-    if (turnCount % 2 == 0) {
-      document.write("Player one your turn");
-      this.whoseTurn = 1;
-
-    }
-    if (turnCount % 2 == 1) {
-      document.write("Player two your turn");
-      this.whoseTurn = 2;
-    }
-  }
 }
 
 
