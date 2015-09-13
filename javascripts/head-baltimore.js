@@ -12,7 +12,7 @@ var polyarea = [];
 
 function initialize() {
   // Borrowing code from voronoi
-  d3.json('baltimore.geojson', function(pointjson){
+  d3.json('/json/baltimore.json', function(pointjson){
     makeVoronoi(pointjson);
   });
   var map;
