@@ -2,7 +2,7 @@ var intersections=[];
 function initialize() {
 
   // Borrowing code from veronoi
-  d3.json('baltimore.geojson', function(pointjson){
+  d3.json('HK.json', function(pointjson){
     makeVoronoi(pointjson);
   });
   var map;
@@ -14,7 +14,7 @@ function initialize() {
     var width = 1000,
         height = 1000;
     var mapProp = {
-    center:new google.maps.LatLng(39.328267, -76.611583),
+    center:new google.maps.LatLng(/*Baltimore39.328267, -76.611583),*//*NYC40.741400, -73.988403),*//*HK*/22.331214, 114.179017),
     zoom:15,
     mapTypeId:google.maps.MapTypeId.ROADMAP
     };
@@ -103,7 +103,7 @@ function initialize() {
 };
   
   var request = new XMLHttpRequest();
-  request.open("GET", "baltimore.json", true);
+  request.open("GET", "HK.json", true);
   request.send(null);
   request.onreadystatechange = function() { 
   if ( request.readyState === 4 && request.status === 200 ) {
