@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
+  
+<style>
+.Player1 {
+    background-color: white;
+}
+
+.Player2 {
+    background-color: red;
+}
+</style>
 
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://shimz.me/example/d3js/topojson.v0.min.js"></script>
@@ -19,11 +29,11 @@
 </head>
 
 <body background = "congruent_pentagon/congruent_pentagon.png">
-<h1>Player 1:
-</h1>
-<h2>Player 2:</h2>
+<div class = "Player1"></div>
+<div class = "Player2"></div>
   
 <div id="googleMap" style="width:1500px;height:760px;"></div>
 </body>
 
 </html>
+
